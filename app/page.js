@@ -17,30 +17,30 @@ export default function Home() {
 
   const fetchAvailableTimes = async (date) => {
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL; 
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL; // Use the environment variable
       const response = await axios.get(`${apiUrl}/api/available-times?date=${date}`);
-  
+
       const today = new Date();
       const isToday = new Date(date).toDateString() === today.toDateString();
-  
+
       let filteredTimes = response.data.availableSlots;
-  
+
       if (isToday) {
-        const currentTimeInMinutes = today.getHours() * 60 + today.getMinutes(); 
-  
+        const currentTimeInMinutes = today.getHours() * 60 + today.getMinutes();
+
         filteredTimes = filteredTimes.filter((time) => {
-          const [hourMinute, period] = time.split(" "); 
+          const [hourMinute, period] = time.split(" ");
           const [hour, minute] = hourMinute.split(":").map(Number);
-  
+
           let hour24 = hour;
-          if (period === "PM" && hour !== 12) hour24 += 12; 
-          if (period === "AM" && hour === 12) hour24 = 0; 
-  
+          if (period === "PM" && hour !== 12) hour24 += 12;
+          if (period === "AM" && hour === 12) hour24 = 0;
+
           const timeInMinutes = hour24 * 60 + minute;
-          return timeInMinutes > currentTimeInMinutes; 
+          return timeInMinutes > currentTimeInMinutes;
         });
       }
-  
+
       setAvailableTimes(filteredTimes);
     } catch (error) {
       console.error("Failed to fetch available times", error);
@@ -50,7 +50,7 @@ export default function Home() {
 
   const handleDateChange = (e) => {
     const selectedDate = e.target.value;
-    setSelectedDate(selectedDate); 
+    setSelectedDate(selectedDate);
     const today = new Date();
     if (new Date(selectedDate).toDateString() === today.toDateString()) {
       const hours = today.getHours().toString().padStart(2, "0");
@@ -70,23 +70,24 @@ export default function Home() {
       const data = Object.fromEntries(formData.entries());
 
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL; 
-        const response = await axios.post(`${apiUrl}/api/bookings`, data);
-        
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL; // Use the environment variable
+        await axios.post(`${apiUrl}/api/bookings`, data);
+
         toast.success(
-          `Booking confirmed for ${data.guests} guests on ${data.date} at ${data.time}.`, { duration: 5000 }
+          `Booking confirmed for ${data.guests} guests on ${data.date} at ${data.time}.`,
+          { duration: 5000 }
         );
 
-        form.reset(); 
-        setMinTime(""); 
-        fetchAvailableTimes(data.date); 
+        form.reset();
+        setMinTime("");
+        fetchAvailableTimes(data.date);
       } catch (error) {
         toast.error(
           error.response?.data?.error || "Failed to book the table. Please try again."
         );
       }
     } else {
-      form.reportValidity(); 
+      form.reportValidity();
       toast.error("Please correct the highlighted fields.", { duration: 5000 });
     }
   };

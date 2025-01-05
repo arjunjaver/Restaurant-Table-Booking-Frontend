@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "app/**/*", "use": "@vercel/next" }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "app/page.js" }
+  ],
+  "env": {
+    "NEXT_PUBLIC_API_URL": "https://restaurant-table-booking-backend-liard.vercel.app"
+  }
+}
+
+ 
+  
