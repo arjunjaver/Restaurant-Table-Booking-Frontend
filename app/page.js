@@ -17,9 +17,8 @@ export default function Home() {
 
   const fetchAvailableTimes = async (date) => {
     try {
-      const response = await axios.get(
-        `http://localhost:5000/api/available-times?date=${date}`
-      );
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL; // Use environment variable for API URL
+      const response = await axios.get(`${apiUrl}/api/available-times?date=${date}`);
   
       const today = new Date();
       const isToday = new Date(date).toDateString() === today.toDateString();
@@ -71,7 +70,8 @@ export default function Home() {
       const data = Object.fromEntries(formData.entries());
 
       try {
-        const response = await axios.post("http://localhost:5000/api/bookings", data);
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL; // Use environment variable for API URL
+        const response = await axios.post(`${apiUrl}/api/bookings`, data);
         
         toast.success(
           `Booking confirmed for ${data.guests} guests on ${data.date} at ${data.time}.`, { duration: 5000 }
