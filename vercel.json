@@ -6,7 +6,15 @@
       "use": "@vercel/next"
     }
   ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/"
+    }
+  ],
   "env": {
-    "NEXT_PUBLIC_API_URL": "https://restaurant-table-booking-backend-liard.vercel.app"
+    "NEXT_PUBLIC_API_URL": "https://restaurant-table-booking-backend-liard.vercel.app" 
   }
 }
+
+  
