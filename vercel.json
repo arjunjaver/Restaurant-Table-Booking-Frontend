@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "app/page.js",
+      "src": "app/**/*",
       "use": "@vercel/next"
     }
   ],
@@ -10,13 +10,9 @@
     {
       "src": "/api/(.*)",
       "dest": "/api/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/app/page.js"
     }
   ],
   "env": {
-    "NEXT_PUBLIC_API_URL": "https://restaurant-table-booking-backend-liard.vercel.app/"
+    "NEXT_PUBLIC_API_URL": "https://your-backend.vercel.app"
   }
 }
